@@ -20,3 +20,8 @@ def convert_to_date(df, cols:list):
             df[col] = pd.to_datetime(df[col])
     return df
 
+def if_weekends(df,weekends = [5,6]):
+    if df in weekends:
+        return 1
+    else:
+        return 0

@@ -1,3 +1,6 @@
+import pandas as pd
+from datetime import datetime
+
 def convert_to_date(df, cols:list):
     """Convert specified columns from a Pandas dataframe into datetime
 
@@ -39,3 +42,18 @@ def if_weekends(df,weekends = [5,6]):
         return 1
     else:
         return 0
+from datetime import datetime
+
+
+
+def convert_and_replace(dfs, column_name):
+    # Define the conversion function
+    def convert_int_to_date(timestamp):
+        return datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d')
+    
+    # Iterate over each DataFrame in the list
+    for df in dfs:
+        # Apply the conversion function to the specified column and replace it
+        df[column_name] = df[column_name].apply(convert_int_to_date)
+    
+    return dfs

@@ -16,7 +16,7 @@ def datetime_to_integer(df, datetime_column):
 
     df[datetime_column + '_int'] = df[datetime_column].astype(int) // 10**9
     return df
-    
+
 def datetime_to_day_month_year(df, datetime_column):
     """
     Converts a datetime column in a DataFrame into separate columns for day, month, and year.
@@ -57,3 +57,24 @@ def encode_and_combine_columns(df, num_cols, cat_cols):
     
     return new_df
 
+def cat_cols_id(df, date_cols, cat_cols):
+    """
+    Encodes categorical columns in a DataFrame using LabelEncoder, drops the original columns,
+    and combines the numerical columns with the encoded categorical columns.
+
+    Parameters:
+    df (pd.DataFrame): The DataFrame containing the categorical and numerical columns.
+    num_cols (list): The list of numerical columns to keep.
+    cat_cols (list): The list of categorical columns to encode and drop.
+
+    Returns:
+    pd.DataFrame: A new DataFrame with numerical columns and encoded categorical columns.
+    """
+    label_encoder = LabelEncoder()
+    for column in cat_cols:
+        df[column + '_encoded'] = label_encoder.fit_transform(df[column])
+    
+    # Create a new DataFrame with numerical columns and encoded categorical columns
+    new_df = df[date_cols + cat_cols + [column + '_encoded' for column in cat_cols]].copy()
+    
+    return new_df
